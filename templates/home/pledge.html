@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block title %}Pledge - Zero Hunger{% endblock %}
+
+{% block content %}
+<section class="info">
+  <h2 class="section-title">Make Your Zero Hunger Pledge</h2>
+  <p class="section-sub">
+    <strong style="color: var(--accent);">{{ total_pledges }}</strong> people have already pledged. You can be next! 🌟
+  </p>
+
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      {% for category, message in messages %}
+        <div style="background: {% if category == 'success' %}rgba(51, 204, 102, 0.1){% else %}rgba(255, 51, 51, 0.1){% endif %}; border-left: 4px solid {% if category == 'success' %}#33cc66{% else %}#ff3333{% endif %}; padding: 12px; border-radius: 6px; margin-bottom: 16px;">
+          <p style="margin: 0; color: {% if category == 'success' %}#90EE90{% else %}#ff6b6b{% endif %};">{{ message }}</p>
+        </div>
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
+
+  <div class="cta-inner" style="max-width: 720px; margin: 0 auto;">
+    <form method="post" action="{{ url_for('pledge') }}" style="width: 100%; display: grid; gap: 14px;">
+      <div>
+        <label style="display:block; font-size: 14px; margin-bottom: 4px; font-weight: 600;">Your Name</label>
+        <input type="text" name="name" required placeholder="Enter your full name"
+               style="width:100%; padding:10px 12px; border-radius:8px; border:1px solid rgba(255,255,255,0.08); background:rgba(3,12,18,0.9); color:#e8f3f7; font-size: 14px;">
+      </div>
+
+      <div>
+        <label style="display:block; font-size: 14px; margin-bottom: 4px; font-weight: 600;">Email</label>
+        <input type="email" name="email" required placeholder="your@email.com"
+               style="width:100%; padding:10px 12px; border-radius:8px; border:1px solid rgba(255,255,255,0.08); background:rgba(3,12,18,0.9); color:#e8f3f7; font-size: 14px;">
+      </div>
+
+      <div>
+        <label style="display:block; font-size: 14px; margin-bottom: 4px; font-weight: 600;">Your Pledge</label>
+        <textarea name="pledge" rows="4" required placeholder="Example: I will donate excess food from family events every month..."
+                  style="width:100%; padding:10px 12px; border-radius:8px; border:1px solid rgba(255,255,255,0.08); background:rgba(3,12,18,0.9); color:#e8f3f7; resize:vertical; font-size: 14px;"></textarea>
+      </div>
+
+      <p style="font-size:12px; color:var(--muted); margin-top:2px;">
+        ✓ Your pledge helps track community commitment. Personal details are kept private.
+      </p>
+
+      <div style="display:flex; justify-content:flex-end; margin-top:6px;">
+        <button class="btn btn-accent" type="submit">Submit Pledge</button>
+      </div>
+    </form>
+  </div>
+</section>
+{% endblock %}

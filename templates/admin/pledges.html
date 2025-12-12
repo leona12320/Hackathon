@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block title %}Admin - View Pledges{% endblock %}
+
+{% block content %}
+<section class="info">
+  <h2 class="section-title">All Active Pledges</h2>
+  <p class="section-sub">View all pledges made by community members.</p>
+
+  <div style="max-width: 1000px; margin: 0 auto; overflow-x: auto;">
+    {% if pledges %}
+      <table style="width: 100%; border-collapse: collapse; color: #e8f3f7;">
+        <thead>
+          <tr style="background: rgba(255,255,255,0.05); border-bottom: 2px solid rgba(255,255,255,0.1);">
+            <th style="padding: 12px; text-align: left; font-weight: 600;">Name</th>
+            <th style="padding: 12px; text-align: left; font-weight: 600;">Email</th>
+            <th style="padding: 12px; text-align: left; font-weight: 600;">Pledge</th>
+            <th style="padding: 12px; text-align: left; font-weight: 600;">Date</th>
+            <th style="padding: 12px; text-align: left; font-weight: 600;">Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for pledge in pledges %}
+          <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+            <td style="padding: 12px;">{{ pledge.name }}</td>
+            <td style="padding: 12px;"><a href="mailto:{{ pledge.email }}" style="color: var(--accent);">{{ pledge.email }}</a></td>
+            <td style="padding: 12px;">{{ pledge.pledge_text[:60] }}...</td>
+            <td style="padding: 12px; color: var(--muted); font-size: 12px;">{{ pledge.created_at[:10] }}</td>
+            <td style="padding: 12px;">
+              <span style="background: rgba(51, 204, 102, 0.2); color: #90EE90; padding: 4px 8px; border-radius: 4px; font-size: 12px;">{{ pledge.status }}</span>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      
+      <p style="margin-top: 20px; text-align: center; color: var(--muted);">
+        <strong>Total Active Pledges:</strong> {{ pledges|length }}
+      </p>
+    {% else %}
+      <p style="text-align: center; color: var(--muted); padding: 40px;">No active pledges yet.</p>
+    {% endif %}
+  </div>
+
+  <div style="display: flex; gap: 12px; margin-top: 30px; justify-content: center;">
+    <a href="{{ url_for('admin_stats') }}" class="btn btn-accent">View Statistics</a>
+    <a href="{{ url_for('home') }}" class="btn btn-outline">Back to Home</a>
+  </div>
+</section>
+{% endblock %}

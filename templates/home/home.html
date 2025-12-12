@@ -1,0 +1,174 @@
+{% extends "base.html" %}
+
+{% block title %}Home - Zero Hunger{% endblock %}
+
+{% block content %}
+<section class="hero">
+  <div class="slider">
+    <div class="slide is-active" style="background: linear-gradient(135deg, rgba(7,26,38,0.8), rgba(15,61,87,0.8)), url('https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=1200&q=80'); background-size: cover; background-position: center;">
+      <div class="slide-inner">
+        <h1>End Hunger, One Meal at a Time</h1>
+        <p class="lead">Discover NGOs, food banks, and community kitchens working to feed those in need.</p>
+        <div class="hero-ctas">
+          <a href="{{ url_for('donate') }}" class="btn btn-accent">Donate Now</a>
+          <a href="{{ url_for('pledge') }}" class="btn btn-outline">Take the Pledge</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="slide" style="background: linear-gradient(135deg, rgba(7,26,38,0.8), rgba(15,61,87,0.8)), url('https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=1200&q=80'); background-size: cover; background-position: center;">
+      <div class="slide-inner">
+        <h1>Community Kitchens</h1>
+        <p class="lead">Support kitchens that serve affordable meals to thousands every day.</p>
+        <div class="hero-ctas">
+          <a href="{{ url_for('community') }}" class="btn btn-accent">Find Kitchens</a>
+          <a href="{{ url_for('donate') }}" class="btn btn-outline">Donate Food</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="slide" style="background: linear-gradient(135deg, rgba(7,26,38,0.8), rgba(15,61,87,0.8)), url('https://images.unsplash.com/photo-1569163139394-de4798aa62b1?auto=format&fit=crop&w=1200&q=80'); background-size: cover; background-position: center;">
+      <div class="slide-inner">
+        <h1>Food Banks & NGOs</h1>
+        <p class="lead">Connect with local organizations distributing meals where needed most.</p>
+        <div class="hero-ctas">
+          <a href="{{ url_for('ngos') }}" class="btn btn-accent">Find NGOs</a>
+          <a href="{{ url_for('foodbanks') }}" class="btn btn-outline">Food Banks</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="slider-dots" id="sliderDots"></div>
+  <div class="slider-controls">
+    <button id="prev" aria-label="Previous slide">❮</button>
+    <button id="next" aria-label="Next slide">❯</button>
+  </div>
+</section>
+
+<section class="info">
+  <h2 class="section-title">How You Can Help</h2>
+  <p class="section-sub">Explore different ways to support hunger-free communities around you.</p>
+
+  <div class="cards">
+    <div class="card">
+      <div class="card-body">
+        <h3>🏢 Support NGOs</h3>
+        <p>Find trusted organizations delivering meals and nutrition programs.</p>
+        <a href="{{ url_for('ngos') }}" class="link-sm">View NGOs →</a>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-body">
+        <h3>🍎 Donate Food</h3>
+        <p>Share surplus food with food banks and community kitchens.</p>
+        <a href="{{ url_for('foodbanks') }}" class="link-sm">Find Food Banks →</a>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-body">
+        <h3>✋ Make a Pledge</h3>
+        <p>Commit to small, regular actions that fight hunger.</p>
+        <a href="{{ url_for('pledge') }}" class="link-sm">Pledge Today →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta">
+  <div class="cta-inner">
+    <div>
+      <h3>Join {{ pledge_count }} people helping communities</h3>
+      <p class="muted">Pledge today and start making consistent impact in your neighborhood.</p>
+    </div>
+    <div class="cta-actions">
+      <a href="{{ url_for('pledge') }}" class="btn btn-outline">Take the Pledge</a>
+      <a href="{{ url_for('donate') }}" class="btn btn-accent">Donate Now</a>
+    </div>
+  </div>
+</section>
+
+<script>
+const slider = document.querySelector('.slider');
+const slides = Array.from(slider.querySelectorAll('.slide'));
+const dotsWrap = document.getElementById('sliderDots');
+const prev = document.getElementById('prev');
+const next = document.getElementById('next');
+
+let current = 0;
+const slideCount = slides.length;
+const intervalMs = 5000;
+let timer;
+
+slides.forEach((s, i) => {
+  const btn = document.createElement('button');
+  btn.className = 'dot';
+  btn.setAttribute('aria-label', `Go to slide ${i + 1}`);
+  btn.dataset.index = i;
+  if (i === 0) btn.classList.add('active');
+  dotsWrap.appendChild(btn);
+});
+
+const dots = Array.from(dotsWrap.children);
+
+function goTo(index) {
+  slides.forEach((s, i) => {
+    s.setAttribute('aria-hidden', i !== index ? 'true' : 'false');
+    s.classList.toggle('is-active', i === index);
+  });
+  dots.forEach((d, i) => {
+    d.classList.toggle('active', i === index);
+  });
+  current = index;
+}
+
+function nextSlide() {
+  goTo((current + 1) % slideCount);
+}
+
+function prevSlide() {
+  goTo((current - 1 + slideCount) % slideCount);
+}
+
+next.addEventListener('click', () => {
+  stopTimer();
+  nextSlide();
+  startTimer();
+});
+
+prev.addEventListener('click', () => {
+  stopTimer();
+  prevSlide();
+  startTimer();
+});
+
+dotsWrap.addEventListener('click', (e) => {
+  if (e.target.matches('.dot')) {
+    stopTimer();
+    goTo(Number(e.target.dataset.index));
+    startTimer();
+  }
+});
+
+function startTimer() {
+  timer = setInterval(nextSlide, intervalMs);
+}
+
+function stopTimer() {
+  clearInterval(timer);
+}
+
+goTo(0);
+startTimer();
+
+slider.addEventListener('mouseenter', stopTimer);
+slider.addEventListener('focusin', stopTimer);
+slider.addEventListener('mouseleave', startTimer);
+slider.addEventListener('focusout', startTimer);
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'ArrowLeft') prevSlide();
+  if (e.key === 'ArrowRight') nextSlide();
+});
+</script>
+{% endblock %}

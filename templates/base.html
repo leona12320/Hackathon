@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}Zero Hunger{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <header class="site-header">
+    <nav class="nav container">
+      <div class="brand">
+        <img src="{{ url_for('static', filename='logo.png') }}" alt="Zero Hunger Logo" style="height: 44px; width: auto;">
+        <span class="logo-text">ZH Zero Hunger</span>
+      </div>
+      <ul class="nav-links">
+        <li><a href="{{ url_for('home') }}" {% if request.endpoint == 'home' %}class="active"{% endif %}>Home</a></li>
+        <li><a href="{{ url_for('donate') }}" {% if request.endpoint == 'donate' %}class="active"{% endif %}>Donate</a></li>
+        <li><a href="{{ url_for('ngos') }}" {% if request.endpoint == 'ngos' %}class="active"{% endif %}>NGOs</a></li>
+        <li><a href="{{ url_for('foodbanks') }}" {% if request.endpoint == 'foodbanks' %}class="active"{% endif %}>Food Banks</a></li>
+        <li><a href="{{ url_for('community') }}" {% if request.endpoint == 'community' %}class="active"{% endif %}>Community Kitchens</a></li>
+        <li><a href="{{ url_for('pledge') }}" {% if request.endpoint == 'pledge' %}class="active"{% endif %}>Pledge</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="container">
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <h4>Services</h4>
+          <ul class="footer-links">
+            <li><a href="{{ url_for('ngos') }}">NGO Directory</a></li>
+            <li><a href="{{ url_for('foodbanks') }}">Food Banks</a></li>
+            <li><a href="{{ url_for('community') }}">Community Kitchens</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Get Involved</h4>
+          <ul class="footer-links">
+            <li><a href="{{ url_for('donate') }}">Donate</a></li>
+            <li><a href="{{ url_for('pledge') }}">Take Pledge</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Contact</h4>
+          <p>help@zerohunger.org</p>
+        </div>
+        <div>
+          <h4>Admin</h4>
+          <ul class="footer-links">
+            <li><a href="{{ url_for('admin_pledges') }}">View Pledges</a></li>
+            <li><a href="{{ url_for('admin_stats') }}">Statistics</a></li>
+          </ul>
+        </div>
+      </div>
+      <p class="copyright">&copy; 2025 Zero Hunger Initiative</p>
+    </div>
+  </footer>
+</body>
+</html>

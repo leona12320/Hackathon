@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block title %}Food Banks - Zero Hunger{% endblock %}
+
+{% block content %}
+<section class="info">
+  <h2 class="section-title">Where You Can Donate Food</h2>
+  <p class="section-sub">Food banks that accept surplus groceries and cooked meals.</p>
+
+  <div class="cards">
+    {% if foodbanks %}
+      {% for bank in foodbanks %}
+      <div class="card">
+        <div class="card-body">
+          <h3>{{ bank.name }}</h3>
+          <p>{{ bank.description }}</p>
+          <p><strong>Location:</strong> {{ bank.location }}</p>
+          <p><strong>Accepts:</strong> {{ bank.accepted_items }}</p>
+          {% if bank.operating_hours %}<p><strong>Hours:</strong> {{ bank.operating_hours }}</p>{% endif %}
+          <p><strong>Email:</strong> <a href="mailto:{{ bank.contact_email }}" style="color: var(--accent);">{{ bank.contact_email }}</a></p>
+          {% if bank.phone %}<p><strong>Phone:</strong> {{ bank.phone }}</p>{% endif %}
+        </div>
+      </div>
+      {% endfor %}
+    {% else %}
+      <p style="text-align: center; color: var(--muted);">No food banks found</p>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block title %}Community Kitchens - Zero Hunger{% endblock %}
+
+{% block content %}
+<section class="info">
+  <h2 class="section-title">Low-cost or Free Community Meals</h2>
+  <p class="section-sub">Access affordable, nutritious meals through public canteens and kitchens.</p>
+
+  <div class="cards">
+    {% if kitchens %}
+      {% for kitchen in kitchens %}
+      <div class="card">
+        <div class="card-body">
+          <h3>{{ kitchen.name }}</h3>
+          <p>{{ kitchen.description }}</p>
+          <p><strong>Location:</strong> {{ kitchen.location }}</p>
+          {% if kitchen.meals_per_day %}<p><strong>Meals/Day:</strong> {{ kitchen.meals_per_day }}</p>{% endif %}
+          {% if kitchen.operating_hours %}<p><strong>Hours:</strong> {{ kitchen.operating_hours }}</p>{% endif %}
+          <p><strong>Email:</strong> <a href="mailto:{{ kitchen.contact_email }}" style="color: var(--accent);">{{ kitchen.contact_email }}</a></p>
+          {% if kitchen.phone %}<p><strong>Phone:</strong> {{ kitchen.phone }}</p>{% endif %}
+        </div>
+      </div>
+      {% endfor %}
+    {% else %}
+      <p style="text-align: center; color: var(--muted);">No community kitchens found</p>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block title %}Admin - Statistics{% endblock %}
+
+{% block content %}
+<section class="info">
+  <h2 class="section-title">Zero Hunger Statistics</h2>
+  <p class="section-sub">Real-time metrics and impact data.</p>
+
+  <div class="cards" style="grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));">
+    <div class="card" style="background: linear-gradient(135deg, rgba(51,204,102,0.1), rgba(51,204,102,0.05));">
+      <div class="card-body">
+        <h3 style="color: #90EE90;">📋 Active Pledges</h3>
+        <p style="font-size: 32px; font-weight: 800; color: var(--accent); margin: 10px 0;">{{ total_pledges }}</p>
+        <p style="color: var(--muted); font-size: 12px;">People committed to ending hunger</p>
+      </div>
+    </div>
+
+    <div class="card" style="background: linear-gradient(135deg, rgba(255,211,92,0.1), rgba(255,211,92,0.05));">
+      <div class="card-body">
+        <h3 style="color: #FFD35C;">💰 Donations Received</h3>
+        <p style="font-size: 32px; font-weight: 800; color: var(--accent); margin: 10px 0;">{{ total_donations }}</p>
+        <p style="color: var(--muted); font-size: 12px;">Total donations made</p>
+      </div>
+    </div>
+
+    <div class="card" style="background: linear-gradient(135deg, rgba(102,204,255,0.1), rgba(102,204,255,0.05));">
+      <div class="card-body">
+        <h3 style="color: #66CCFF;">₹ Total Amount</h3>
+        <p style="font-size: 32px; font-weight: 800; color: var(--accent); margin: 10px 0;">₹{{ "%.0f"|format(total_amount) }}</p>
+        <p style="color: var(--muted); font-size: 12px;">Total funds raised</p>
+      </div>
+    </div>
+
+    <div class="card" style="background: linear-gradient(135deg, rgba(255,102,102,0.1), rgba(255,102,102,0.05));">
+      <div class="card-body">
+        <h3 style="color: #FF6666;">🏢 Partner NGOs</h3>
+        <p style="font-size: 32px; font-weight: 800; color: var(--accent); margin: 10px 0;">{{ total_ngos }}</p>
+        <p style="color: var(--muted); font-size: 12px;">Organizations helping</p>
+      </div>
+    </div>
+  </div>
+
+  <div style="display: flex; gap: 12px; margin-top: 30px; justify-content: center;">
+    <a href="{{ url_for('admin_pledges') }}" class="btn btn-accent">View All Pledges</a>
+    <a href="{{ url_for('home') }}" class="btn btn-outline">Back to Home</a>
+  </div>
+</section>
+{% endblock %}

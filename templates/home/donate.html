@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+
+{% block title %}Donate - Zero Hunger{% endblock %}
+
+{% block content %}
+<section class="info">
+  <h2 class="section-title">Support Our Cause</h2>
+  <p class="section-sub">Record your donation and help us track community support for hunger relief.</p>
+
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      {% for category, message in messages %}
+        <div style="background: {% if category == 'success' %}rgba(51, 204, 102, 0.1){% else %}rgba(255, 51, 51, 0.1){% endif %}; border-left: 4px solid {% if category == 'success' %}#33cc66{% else %}#ff3333{% endif %}; padding: 12px; border-radius: 6px; margin-bottom: 16px; max-width: 720px; margin-left: auto; margin-right: auto;">
+          <p style="margin: 0; color: {% if category == 'success' %}#90EE90{% else %}#ff6b6b{% endif %};">{{ message }}</p>
+        </div>
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
+
+  <div class="cards">
+    <div class="card">
+      <div class="card-body">
+        <h3>🍎 Donate Food</h3>
+        <p>Provide meals, groceries, or raw food items to partner kitchens and food banks.</p>
+        <p style="font-size: 12px; color: var(--muted);">Contact local food banks directly for pickup arrangements</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-body">
+        <h3>💰 Donate Money</h3>
+        <p>Support large-scale kitchen operations serving thousands of people daily.</p>
+        <p style="font-size: 12px; color: var(--muted);">Bank transfer or online payment details available upon request</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-body">
+        <h3>🏪 Support Kitchens</h3>
+        <p>Help sustain low-cost kitchens in underserved areas.</p>
+        <p style="font-size: 12px; color: var(--muted);">Direct support to community kitchen programs</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="cta-inner" style="max-width: 720px; margin: 30px auto 0;">
+    <form method="post" action="{{ url_for('donate') }}" style="width: 100%; display: grid; gap: 14px;">
+      <h3 style="margin: 0 0 10px 0; color: #e8f3f7;">Record Your Donation</h3>
+
+      <div>
+        <label style="display:block; font-size: 14px; margin-bottom: 4px; font-weight: 600;">Your Name</label>
+        <input type="text" name="donor_name" required placeholder="Enter your full name"
+               style="width:100%; padding:10px 12px; border-radius:8px; border:1px solid rgba(255,255,255,0.08); background:rgba(3,12,18,0.9); color:#e8f3f7; font-size: 14px;">
+      </div>
+
+      <div>
+        <label style="display:block; font-size: 14px; margin-bottom: 4px; font-weight: 600;">Email</label>
+        <input type="email" name="donor_email" required placeholder="your@email.com"
+               style="width:100%; padding:10px 12px; border-radius:8px; border:1px solid rgba(255,255,255,0.08); background:rgba(3,12,18,0.9); color:#e8f3f7; font-size: 14px;">
+      </div>
+
+      <div>
+        <label style="display:block; font-size: 14px; margin-bottom: 4px; font-weight: 600;">Donation Type</label>
+        <select name="donation_type" required style="width:100%; padding:10px 12px; border-radius:8px; border:1px solid rgba(255,255,255,0.08); background:rgba(3,12,18,0.9); color:#e8f3f7; font-size: 14px;">
+          <option value="">-- Select Donation Type --</option>
+          <option value="food">Food Items</option>
+          <option value="funds">Money/Funds</option>
+          <option value="kitchens">Kitchen Support</option>
+          <option value="other">Other</option>
+        </select>
+      </div>
+
+      <div>
+        <label style="display:block; font-size: 14px; margin-bottom: 4px; font-weight: 600;">Amount / Description</label>
+        <textarea name="amount" rows="3" required placeholder="e.g., 500 kg rice, ₹5000, 100 meals..."
+                  style="width:100%; padding:10px 12px; border-radius:8px; border:1px solid rgba(255,255,255,0.08); background:rgba(3,12,18,0.9); color:#e8f3f7; resize:vertical; font-size: 14px;"></textarea>
+      </div>
+
+      <p style="font-size:12px; color:var(--muted); margin-top:2px;">
+        ✓ Your donation details help us track support. Personal information is kept private and secure.
+      </p>
+
+      <div style="display:flex; justify-content:flex-end; margin-top:6px;">
+        <button class="btn btn-accent" type="submit">Record Donation</button>
+      </div>
+    </form>
+  </div>
+</section>
+{% endblock %}

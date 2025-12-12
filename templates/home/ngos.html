@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}NGO Directory - Zero Hunger{% endblock %}
+
+{% block content %}
+<section class="info">
+  <h2 class="section-title">Verified NGOs Working to End Hunger</h2>
+  <p class="section-sub">Partner with trusted organizations redistributing surplus food across India.</p>
+
+  <div class="cards">
+    {% if ngos %}
+      {% for ngo in ngos %}
+      <div class="card">
+        <div class="card-body">
+          <h3>{{ ngo.name }}</h3>
+          <p>{{ ngo.description }}</p>
+          <p><strong>Location:</strong> {{ ngo.location }}</p>
+          <p><strong>Email:</strong> <a href="mailto:{{ ngo.contact_email }}" style="color: var(--accent);">{{ ngo.contact_email }}</a></p>
+          {% if ngo.phone %}<p><strong>Phone:</strong> {{ ngo.phone }}</p>{% endif %}
+          {% if ngo.website %}<p><a href="{{ ngo.website }}" target="_blank" class="link-sm">Visit Website →</a></p>{% endif %}
+        </div>
+      </div>
+      {% endfor %}
+    {% else %}
+      <p style="text-align: center; color: var(--muted);">No NGOs found</p>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}
